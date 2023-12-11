@@ -42,11 +42,7 @@ multiplyMatricesInIsolate(
       receivedFromWorker.close();
       workerIsolate.kill();
     }
-  }, onError: (Object error) {
-    print(
-        "Error thrown while handling matrix! Completing matrix multipication with empty List. Error: $error");
-    completer.complete([]);
-  }, cancelOnError: true);
+  });
 
   return completer.future;
 }
@@ -88,4 +84,5 @@ void twoDMatrixMultiplication(List<Object> params) {
   }
 
   (params[0] as SendPort).send(result);
+  Isolate.exit(params[0] as SendPort);
 }
